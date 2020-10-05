@@ -36,8 +36,6 @@ public class BankAccount {
             String message = withdrawal + " is a negative amount. Please try again with a positive amount.";
             throw new NegativeAmountException(message);
         } else if (this.balance <= -150.0) {
-            //TODO: Work on the overdraft feature (ex: first withdrawal after creation is 15000.0,
-            // no exception thrown because balance was > -150.0 ...
             String message = "You have reached your bank overdraft, you can not perform a withdrawal at the moment.";
             throw new OverdraftReachedException(message);
         }
