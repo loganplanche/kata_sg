@@ -39,7 +39,7 @@ public class BankAccount {
         if (withdrawal.compareTo(BigDecimal.ZERO) <= -1) {
             String message = withdrawal + " is a negative amount. Please try again with a positive amount.";
             throw new NegativeAmountException(message);
-        } else if (this.balance.compareTo(overdraft) <= -1) {
+        } else if (this.balance.compareTo(overdraft) == 0) {
             String message = "You have reached your bank overdraft, you can not perform a withdrawal at the moment.";
             throw new OverdraftReachedException(message);
         }

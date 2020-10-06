@@ -57,7 +57,7 @@ public class BankAccountTest {
         // As balance at creation equals 0.0, we need to withdraw 150 to hit the overdraft limit
         bankAccTest.withdraw(new BigDecimal(150));
         // Then we try to withdraw again, and the exception is thrown
-        BigDecimal withdrawal = new BigDecimal(200);
+        BigDecimal withdrawal = new BigDecimal(1200);
         bankAccTest.withdraw(withdrawal);
     }
 
