@@ -5,49 +5,54 @@ import exception.OverdraftReachedException;
 import operation.Operation;
 import operation.OperationType;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BankAccount {
 
-    private double balance;
+    private BigDecimal balance;
     private List<Operation> operations;
+    private BigDecimal overdraft;
 
     public BankAccount() {
-        this.balance = 0.0;
+        this.balance = BigDecimal.ZERO;
         this.operations = new ArrayList<>();
+        //Say that one can't withdraw under -150 of balance.
+        this.overdraft = new BigDecimal(150).negate();
     }
 
-    public double getBalance() {
+    public BigDecimal getBalance() {
         return this.balance;
     }
 
-    public void deposit(double deposit) throws NegativeAmountException {
-        if (deposit < 0) {
+    public void deposit(BigDecimal deposit) throws NegativeAmountException {
+        if (deposit.compareTo(BigDecimal.ZERO) <= -1) {
             String message = deposit + " is a negative amount. Please try again with a positive amount.";
             throw new NegativeAmountException(message);
         }
         performOperation(OperationType.DEPOSIT, deposit);
     }
 
-    public void withdraw(double withdrawal) throws NegativeAmountException, OverdraftReachedException {
-        if (withdrawal < 0) {
+    public void withdraw(BigDecimal withdrawal) throws NegativeAmountException, OverdraftReachedException {
+        if (withdrawal.compareTo(BigDecimal.ZERO) <= -1) {
             String message = withdrawal + " is a negative amount. Please try again with a positive amount.";
             throw new NegativeAmountException(message);
-        } else if (this.balance <= -150.0) {
+        } else if (this.balance.compareTo(overdraft) <= -1) {
             String message = "You have reached your bank overdraft, you can not perform a withdrawal at the moment.";
             throw new OverdraftReachedException(message);
         }
-        performOperation(OperationType.WITHDRAWAL, -withdrawal);
+        performOperation(OperationType.WITHDRAWAL, withdrawal.negate());
     }
 
-    private void performOperation(OperationType type, double amount) {
-        this.balance += amount;
+    private void performOperation(OperationType type, BigDecimal amount) {
+        this.balance = this.balance.add(amount);
+        System.out.println(this.balance.toString());
         addToOperations(type, amount);
     }
 
-    private void addToOperations(OperationType type, double amount) {
+    private void addToOperations(OperationType type, BigDecimal amount) {
         Operation operation = new Operation(type, LocalDate.now(), amount);
         this.operations.add(operation);
     }

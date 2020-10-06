@@ -1,14 +1,15 @@
 package operation;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Operation {
 
     private OperationType type;
     private LocalDate date;
-    private double amount;
+    private BigDecimal amount;
 
-    public Operation(OperationType type, LocalDate date, double amount) {
+    public Operation(OperationType type, LocalDate date, BigDecimal amount) {
         if (type == null) {
             throw new IllegalArgumentException();
         }
@@ -22,7 +23,7 @@ public class Operation {
 
     @Override
     public String toString() {
-        return "Operation at " + date.toString() + " is of type " + type + " and of amount " + amount;
+        return "Operation at " + date.toString() + " is of type " + type + " and of amount " + amount.toString();
     }
 
     public OperationType getType() {
@@ -33,7 +34,7 @@ public class Operation {
         return this.date;
     }
 
-    double getAmount() {
+    BigDecimal getAmount() {
         return this.amount;
     }
 }
