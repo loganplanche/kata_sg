@@ -1,2 +1,6 @@
 .project
 .classpath
+out/
+/target/
+desktop.ini
+.settings
